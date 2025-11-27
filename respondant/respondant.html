@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RESPONDANT | Next-Gen AI Automation Infrastructure</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --neon-cyan: #00f3ff;
+            --neon-purple: #bc13fe;
+            --transition-speed: 0.8s ease-in-out;
+            --text-secondary: #a0a0b0;
+            --font-stack: 'Outfit', sans-serif;
+        }
+
+        [data-theme='dark'] {
+            --bg-main: #0a0a1a;
+            --bg-gradient: linear-gradient(135deg, #050511 0%, #120e2a 50%, #0a0a1a 100%);
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --card-border: rgba(255, 255, 255, 0.1);
+            --text-primary: #ffffff;
+            --shadow-intense: rgba(0, 0, 0, 0.6);
+            --orb-opacity: 0.35;
+        }
+
+        [data-theme='light'] {
+            --bg-main: #a6a6a9;
+            --bg-gradient: linear-gradient(135deg, #e0e0ff 0%, #ffffff 50%, #e0e0ff 100%);
+            --card-bg: rgba(255, 255, 255, 0.85);
+            --card-border: rgba(0, 0, 0, 0.1);
+            --text-primary: #1a1a2e;
+            --shadow-intense: rgba(0, 0, 0, 0.15);
+            --orb-opacity: 0.15;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: var(--font-stack);
+        }
+
+        @keyframes bg-shift {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        body {
+            background: var(--bg-main);
+            background-image: var(--bg-gradient);
+            background-size: 400% 400%;
+            animation: bg-shift 90s ease infinite;
+            color: var(--text-primary);
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+            transition: background-color var(--transition-speed), color var(--transition-speed);
+        }
+
+        /* ADD THIS NEW CLASS FOR YOUR BACKGROUND IMAGE */
+        .header-bg-image {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 700px;
+            height: 700px;
+            transform: translate(-50%, -50%);
+            background: url("images/respondant.jpg") center/cover no-repeat;
+            opacity: 0.35;
+            filter: blur(12px);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .glow-orb {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            filter: blur(140px);
+            opacity: var(--orb-opacity);
+            z-index: -1;
+            animation: floatOrb 15s infinite alternate ease-in-out;
+            pointer-events: none;
+        }
+
+        .orb-1 {
+            background: var(--neon-cyan);
+            top: -100px;
+            left: -200px;
+        }
+
+        .orb-2 {
+            background: var(--neon-purple);
+            bottom: 10%;
+            right: -200px;
+            animation-delay: 4s;
+        }
+
+        @keyframes floatOrb {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+
+            100% {
+                transform: translate(60px, 60px) rotate(8deg);
+            }
+        }
+
+        .glass-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 45px;
+            box-shadow: 0 8px 50px 0 var(--shadow-intense);
+            transition: 0.6s all;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--neon-cyan);
+            box-shadow: 0 15px 60px rgba(0, 243, 255, 0.2);
+        }
+
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+            transform: skewX(-20deg);
+            transition: 0.8s;
+        }
+
+        .glass-card:hover::before {
+            left: 100%;
+        }
+
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        .section-padding {
+            padding: 120px 0;
+        }
+
+        .text-gradient {
+            background: linear-gradient(90deg, var(--text-primary), var(--neon-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .theme-toggle {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            color: var(--text-primary);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: grid;
+            place-items: center;
+            font-size: 1.2rem;
+        }
+
+        .btn-primary {
+            display: inline-block;
+            padding: 12px 30px;
+            background: var(--neon-cyan);
+            color: var(--bg-main);
+            border-radius: 50px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .btn-primary:hover {
+            background: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 0 25px rgba(0, 243, 255, 0.6);
+        }
+
+        .price-tag {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--neon-cyan);
+        }
+
+        .list-description {
+            color: var(--text-secondary);
+            margin-bottom: 25px;
+            font-size: 0.95rem;
+        }
+
+        .feature-list {
+            list-style: none;
+        }
+
+        .feature-list li {
+            margin-bottom: 15px;
+            color: var(--text-secondary);
+            font-size: .9rem;
+        }
+
+        .feature-list li::before {
+            content: '✓';
+            margin-right: 8px;
+            color: var(--neon-cyan);
+        }
+
+        .card-advanced {
+            border: 2px solid var(--neon-purple);
+            box-shadow: 0 0 40px rgba(188, 19, 254, .4);
+        }
+
+        .card-advanced .price-tag {
+            color: var(--neon-purple);
+        }
+
+        .card-advanced .feature-list li::before {
+            color: var(--neon-purple);
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2.8rem;
+            }
+
+            .section-padding {
+                padding: 80px 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
+
+    <div class="container" id="content-static">
+
+        <nav style="padding: 30px 0; display: flex; justify-content: space-between;">
+            <div style="font-size: 1.8rem; font-weight: 800; color: var(--neon-cyan);">RESPONDANT</div>
+            <div style="display: flex; gap: 15px;">
+                <button id="theme-toggle" class="theme-toggle">☀️</button>
+                <a href="#pricing" class="btn btn-primary">Choose Your Setup</a>
+            </div>
+        </nav>
+
+        <!-- ADD THE BACKGROUND IMAGE INSIDE HEADER -->
+        <header
+            style="min-height: 90vh; display: flex; flex-direction: column; justify-content: center; position: relative;">
+
+            <div class="header-bg-image"></div>
+
+            <p style="color: var(--neon-cyan); letter-spacing: 3px; margin-bottom: 10px;">The Automation Agency</p>
+
+            <h1 style="font-size: 5rem; line-height: 1.1; margin-bottom: 25px;">
+                We Build Your Business's <br><span class="text-gradient">Intelligent Infrastructure.</span>
+            </h1>
+
+            <p style="font-size: 1.3rem; color: var(--text-secondary); max-width: 700px; margin-bottom: 30px;">
+                Stop losing customers to slow replies. Respondant is the premium service that custom-engineers Instagram
+                automation systems for your café, salon, or clinic.
+            </p>
+
+        </header>
+
+        <section class="section-padding">
+            <h2 style="font-size: 3.5rem; text-align: center; margin-bottom: 80px;">The Respondant Value Proposition.
+            </h2>
+
+            <div class="grid-4">
+                <div class="glass-card">
+                    <h3>Time is Money</h3>
+                    <p class="list-description">
+                        You waste hours replying to the same FAQs. We automate 95% of it.
+                    </p>
+                </div>
+
+                <div class="glass-card">
+                    <h3>24/7 Reliability</h3>
+                    <p class="list-description">
+                        Customers message at midnight. Your system responds instantly.
+                    </p>
+                </div>
+
+                <div class="glass-card">
+                    <h3>Tone Programming</h3>
+                    <p class="list-description">
+                        We engineer calm, friendly, simple conversational tone.
+                    </p>
+                </div>
+
+                <div class="glass-card">
+                    <h3>Custom Engineering</h3>
+                    <p class="list-description">
+                        Fully tailored. Zero generic templates.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-padding" id="pricing">
+            <h2 style="font-size: 3.5rem;">Our Full Service Packages</h2>
+
+            <div class="grid-4">
+
+                <div class="glass-card">
+                    <h3>Basic Setup</h3>
+                    <p class="list-description">Foundation for professional instant replies.</p>
+                    <div class="price-tag">₹1.5k - 2.5k</div>
+
+                    <ul class="feature-list">
+                        <li>Instant Auto Replies</li>
+                        <li>Business FAQ Routing</li>
+                        <li>Professional Tone</li>
+                        <li>Basic Info Sharing</li>
+                    </ul>
+                </div>
+
+                <div class="glass-card">
+                    <h3>Intermediate</h3>
+                    <p class="list-description">Keeps your brand responding & converting.</p>
+                    <div class="price-tag">₹2.5k - 3.5k</div>
+
+                    <ul class="feature-list">
+                        <li>Everything in Basic</li>
+                        <li>Menu & Services Sharing</li>
+                        <li>Automated Follow-ups</li>
+                        <li>Smarter Chat Logic</li>
+                    </ul>
+                </div>
+
+                <div class="glass-card card-advanced">
+                    <h3>Advanced</h3>
+                    <p class="list-description">A full front-end customer experience.</p>
+                    <div class="price-tag">₹3.5k - 7.0k</div>
+
+                    <ul class="feature-list">
+                        <li>Everything in Intermediate</li>
+                        <li>Full In-Chat Booking</li>
+                        <li>DM Order Handling</li>
+                        <li>Custom Complex Workflows</li>
+                    </ul>
+                </div>
+
+                <div class="glass-card">
+                    <h3>Advanced Plus</h3>
+                    <p class="list-description">Turn chats into structured business data.</p>
+                    <div class="price-tag">₹7.0k - 9.0k</div>
+
+                    <ul class="feature-list">
+                        <li>Everything in Advanced</li>
+                        <li>Auto Customer Data Storage</li>
+                        <li>Lead Tracking</li>
+                        <li>Order, Name, Phone Capture</li>
+                    </ul>
+                </div>
+
+            </div>
+        </section>
+
+        <footer class="section-padding" style="text-align:center;">
+            <h2 style="font-size: 2.5rem;">Ready for 24/7 Reliability?</h2>
+
+            <p style="color: var(--text-secondary); margin-top: 15px;">
+                Schedule a consultation to define your setup.
+            </p>
+
+            <br>
+
+            <span
+                style="padding: 8px 16px; background: var(--card-bg); border-radius: 8px; border: 1px solid var(--card-border);">
+                Built and managed by a student from IIT Roorkee
+            </span>
+
+            <br><br>
+
+            <a href="#" class="btn btn-primary">Start Your Custom Setup</a>
+
+            <p style="margin-top: 40px; font-size: 0.8rem; color: var(--text-secondary);">
+                © 2025 Respondant Automation Agency. All Rights Reserved.
+            </p>
+        </footer>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const themeToggle = document.getElementById('theme-toggle');
+            const html = document.documentElement;
+
+            themeToggle.addEventListener('click', () => {
+                if (html.getAttribute('data-theme') === 'dark') {
+                    html.setAttribute('data-theme', 'light');
+                    themeToggle.innerHTML = '🌙';
+                } else {
+                    html.setAttribute('data-theme', 'dark');
+                    themeToggle.innerHTML = '☀️';
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>
