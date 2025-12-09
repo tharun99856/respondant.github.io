@@ -27,6 +27,7 @@
             --text-primary: #ffffff;
             --shadow-intense: rgba(0, 0, 0, 0.6);
             --orb-opacity: 0.35;
+            --cursor-glow-color: rgba(0, 243, 255, 0.15);
         }
 
         [data-theme='light'] {
@@ -37,6 +38,7 @@
             --text-primary: #1a1a2e;
             --shadow-intense: rgba(0, 0, 0, 0.15);
             --orb-opacity: 0.15;
+            --cursor-glow-color: rgba(188, 19, 254, 0.1);
         }
 
         * {
@@ -72,13 +74,26 @@
             transition: background-color var(--transition-speed), color var(--transition-speed);
         }
 
-        /* ADD THIS NEW CLASS FOR YOUR BACKGROUND IMAGE */
+        /* --- MOUSE TRACKING GLOW EFFECT --- */
+        .cursor-glow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            background: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), var(--cursor-glow-color), transparent 40%);
+            transition: background 0.3s;
+        }
+
         .header-bg-image {
             position: absolute;
             top: 50%;
             left: 50%;
-            width: 700px;
-            height: 700px;
+            width: 100%;
+            max-width: 700px;
+            aspect-ratio: 1/1;
             transform: translate(-50%, -50%);
             background: url("images/respondant.jpg") center/cover no-repeat;
             opacity: 0.35;
@@ -89,8 +104,10 @@
 
         .glow-orb {
             position: absolute;
-            width: 600px;
-            height: 600px;
+            width: 60vw;
+            height: 60vw;
+            max-width: 600px;
+            max-height: 600px;
             border-radius: 50%;
             filter: blur(140px);
             opacity: var(--orb-opacity);
@@ -132,6 +149,10 @@
             transition: 0.6s all;
             position: relative;
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            z-index: 2;
         }
 
         .glass-card:hover {
@@ -166,6 +187,8 @@
             max-width: 1400px;
             margin: 0 auto;
             padding: 0 40px;
+            position: relative;
+            z-index: 2;
         }
 
         .section-padding {
@@ -176,6 +199,25 @@
             background: linear-gradient(90deg, var(--text-primary), var(--neon-cyan));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+        }
+
+        nav {
+            padding: 30px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--neon-cyan);
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
         }
 
         .theme-toggle {
@@ -189,6 +231,11 @@
             display: grid;
             place-items: center;
             font-size: 1.2rem;
+            transition: 0.3s;
+        }
+
+        .theme-toggle:hover {
+            background: rgba(255, 255, 255, 0.1);
         }
 
         .btn-primary {
@@ -200,24 +247,34 @@
             font-weight: 700;
             text-decoration: none;
             transition: 0.3s;
+            text-align: center;
         }
 
         .btn-primary:hover {
             background: #fff;
             transform: translateY(-2px);
             box-shadow: 0 0 25px rgba(0, 243, 255, 0.6);
+            color: #000;
+        }
+
+        .main-heading {
+            font-size: 5rem;
+            line-height: 1.1;
+            margin-bottom: 25px;
         }
 
         .price-tag {
             font-size: 2.5rem;
             font-weight: 700;
             color: var(--neon-cyan);
+            margin: 15px 0;
         }
 
         .list-description {
             color: var(--text-secondary);
             margin-bottom: 25px;
             font-size: 0.95rem;
+            line-height: 1.6;
         }
 
         .feature-list {
@@ -228,12 +285,15 @@
             margin-bottom: 15px;
             color: var(--text-secondary);
             font-size: .9rem;
+            display: flex;
+            align-items: flex-start;
         }
 
         .feature-list li::before {
             content: '✓';
-            margin-right: 8px;
+            margin-right: 10px;
             color: var(--neon-cyan);
+            font-weight: bold;
         }
 
         .card-advanced {
@@ -249,13 +309,79 @@
             color: var(--neon-purple);
         }
 
+        /* =========================================
+           MOBILE RESPONSIVENESS (MEDIA QUERIES)
+           ========================================= */
+        @media (max-width: 900px) {
+            .main-heading {
+                font-size: 3.5rem;
+            }
+        }
+
         @media (max-width: 768px) {
-            header h1 {
+            .container {
+                padding: 0 20px;
+            }
+
+            nav {
+                flex-direction: column;
+                gap: 20px;
+                padding: 20px 0;
+            }
+
+            .nav-actions {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .main-heading {
                 font-size: 2.8rem;
+                text-align: center;
+            }
+
+            header p {
+                text-align: center;
+                font-size: 1rem !important;
+            }
+
+            header {
+                min-height: auto;
+                padding: 60px 0;
             }
 
             .section-padding {
-                padding: 80px 0;
+                padding: 60px 0;
+            }
+
+            h2 {
+                font-size: 2.2rem !important;
+                margin-bottom: 40px !important;
+            }
+
+            .glass-card {
+                padding: 25px;
+            }
+
+            .grid-4 {
+                gap: 25px;
+            }
+
+            .price-tag {
+                font-size: 2rem;
+            }
+
+            .header-bg-image {
+                width: 90%;
+                height: auto;
+                opacity: 0.25;
+            }
+
+            .orb-1 {
+                left: -50px;
+            }
+
+            .orb-2 {
+                right: -50px;
             }
         }
     </style>
@@ -263,34 +389,38 @@
 
 <body>
 
+    <div class="cursor-glow"></div>
+
     <div class="glow-orb orb-1"></div>
     <div class="glow-orb orb-2"></div>
 
     <div class="container" id="content-static">
 
-        <nav style="padding: 30px 0; display: flex; justify-content: space-between;">
-            <div style="font-size: 1.8rem; font-weight: 800; color: var(--neon-cyan);">RESPONDANT</div>
-            <div style="display: flex; gap: 15px;">
+        <nav>
+            <div class="nav-logo">RESPONDANT</div>
+            <div class="nav-actions">
                 <button id="theme-toggle" class="theme-toggle">☀️</button>
-                <a href="#pricing" class="btn btn-primary">Choose Your Setup</a>
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSfbs3wZMhjREl1cixIgVzmTckWCZI7ITQxxFYds50NBQgHzsg/viewform"
+                    target="_blank" class="btn btn-primary">Get Started</a>
             </div>
         </nav>
 
-        <!-- ADD THE BACKGROUND IMAGE INSIDE HEADER -->
         <header
-            style="min-height: 90vh; display: flex; flex-direction: column; justify-content: center; position: relative;">
+            style="display: flex; flex-direction: column; justify-content: center; position: relative; min-height: 85vh;">
 
             <div class="header-bg-image"></div>
 
-            <p style="color: var(--neon-cyan); letter-spacing: 3px; margin-bottom: 10px;">The Automation Agency</p>
+            <p style="color: var(--neon-cyan); letter-spacing: 3px; margin-bottom: 10px; font-weight: 600;">THE
+                AUTOMATION AGENCY</p>
 
-            <h1 style="font-size: 5rem; line-height: 1.1; margin-bottom: 25px;">
+            <h1 class="main-heading">
                 We Build Your Business's <br><span class="text-gradient">Intelligent Infrastructure.</span>
             </h1>
 
-            <p style="font-size: 1.3rem; color: var(--text-secondary); max-width: 700px; margin-bottom: 30px;">
+            <p
+                style="font-size: 1.3rem; color: var(--text-secondary); max-width: 700px; margin-bottom: 30px; line-height: 1.6;">
                 Stop losing customers to slow replies. Respondant is the premium service that custom-engineers Instagram
-                automation systems for your café, salon, or clinic.
+                automation systems for your cafes, salon, or clinic.
             </p>
 
         </header>
@@ -301,45 +431,54 @@
 
             <div class="grid-4">
                 <div class="glass-card">
-                    <h3>Time is Money</h3>
-                    <p class="list-description">
-                        You waste hours replying to the same FAQs. We automate 95% of it.
-                    </p>
+                    <div>
+                        <h3>Time is Money</h3>
+                        <p class="list-description">
+                            You waste hours replying to the same FAQs. We automate 95% of it.
+                        </p>
+                    </div>
                 </div>
 
                 <div class="glass-card">
-                    <h3>24/7 Reliability</h3>
-                    <p class="list-description">
-                        Customers message at midnight. Your system responds instantly.
-                    </p>
+                    <div>
+                        <h3>24/7 Reliability</h3>
+                        <p class="list-description">
+                            Customers message at midnight. Your system responds instantly.
+                        </p>
+                    </div>
                 </div>
 
                 <div class="glass-card">
-                    <h3>Tone Programming</h3>
-                    <p class="list-description">
-                        We engineer calm, friendly, simple conversational tone.
-                    </p>
+                    <div>
+                        <h3>Tone Programming</h3>
+                        <p class="list-description">
+                            We engineer calm, friendly, simple conversational tone tailored to your brand.
+                        </p>
+                    </div>
                 </div>
 
                 <div class="glass-card">
-                    <h3>Custom Engineering</h3>
-                    <p class="list-description">
-                        Fully tailored. Zero generic templates.
-                    </p>
+                    <div>
+                        <h3>Custom Engineering</h3>
+                        <p class="list-description">
+                            Fully tailored logic. Zero generic templates. Built for your specific needs.
+                        </p>
+                    </div>
                 </div>
             </div>
         </section>
 
         <section class="section-padding" id="pricing">
-            <h2 style="font-size: 3.5rem;">Our Full Service Packages</h2>
+            <h2 style="font-size: 3.5rem; text-align: center; margin-bottom: 60px;">Our Full Service Packages</h2>
 
             <div class="grid-4">
 
                 <div class="glass-card">
-                    <h3>Basic Setup</h3>
-                    <p class="list-description">Foundation for professional instant replies.</p>
-                    <div class="price-tag">₹1.5k - 2.5k</div>
-
+                    <div>
+                        <h3>Basic Setup</h3>
+                        <p class="list-description">Foundation for professional instant replies.</p>
+                        <div class="price-tag">₹1.5k - 2.5k</div>
+                    </div>
                     <ul class="feature-list">
                         <li>Instant Auto Replies</li>
                         <li>Business FAQ Routing</li>
@@ -349,10 +488,11 @@
                 </div>
 
                 <div class="glass-card">
-                    <h3>Intermediate</h3>
-                    <p class="list-description">Keeps your brand responding & converting.</p>
-                    <div class="price-tag">₹2.5k - 3.5k</div>
-
+                    <div>
+                        <h3>Intermediate</h3>
+                        <p class="list-description">Keeps your brand responding & converting.</p>
+                        <div class="price-tag">₹2.5k - 3.5k</div>
+                    </div>
                     <ul class="feature-list">
                         <li>Everything in Basic</li>
                         <li>Menu & Services Sharing</li>
@@ -362,10 +502,11 @@
                 </div>
 
                 <div class="glass-card card-advanced">
-                    <h3>Advanced</h3>
-                    <p class="list-description">A full front-end customer experience.</p>
-                    <div class="price-tag">₹3.5k - 7.0k</div>
-
+                    <div>
+                        <h3>Advanced</h3>
+                        <p class="list-description">A full front-end customer experience.</p>
+                        <div class="price-tag">₹3.5k - 7.0k</div>
+                    </div>
                     <ul class="feature-list">
                         <li>Everything in Intermediate</li>
                         <li>Full In-Chat Booking</li>
@@ -375,10 +516,11 @@
                 </div>
 
                 <div class="glass-card">
-                    <h3>Advanced Plus</h3>
-                    <p class="list-description">Turn chats into structured business data.</p>
-                    <div class="price-tag">₹7.0k - 9.0k</div>
-
+                    <div>
+                        <h3>Advanced Plus</h3>
+                        <p class="list-description">Turn chats into structured business data.</p>
+                        <div class="price-tag">₹7.0k - 9.0k</div>
+                    </div>
                     <ul class="feature-list">
                         <li>Everything in Advanced</li>
                         <li>Auto Customer Data Storage</li>
@@ -391,24 +533,24 @@
         </section>
 
         <footer class="section-padding" style="text-align:center;">
-            <h2 style="font-size: 2.5rem;">Ready for 24/7 Reliability?</h2>
+            <h2 style="font-size: 2.5rem; margin-bottom: 20px;">Ready for 24/7 Reliability?</h2>
 
-            <p style="color: var(--text-secondary); margin-top: 15px;">
-                Schedule a consultation to define your setup.
+            <p
+                style="color: var(--text-secondary); margin-bottom: 40px; max-width: 500px; margin-left: auto; margin-right: auto;">
+                Schedule a consultation to define your setup. We handle the code, you handle the customers.
             </p>
 
-            <br>
-
             <span
-                style="padding: 8px 16px; background: var(--card-bg); border-radius: 8px; border: 1px solid var(--card-border);">
+                style="display: inline-block; padding: 8px 16px; background: var(--card-bg); border-radius: 8px; border: 1px solid var(--card-border); margin-bottom: 30px; font-size: 0.9rem;">
                 Built and managed by a student from IIT Roorkee
             </span>
 
-            <br><br>
+            <br>
 
-            <a href="#" class="btn btn-primary">Start Your Custom Setup</a>
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSfbs3wZMhjREl1cixIgVzmTckWCZI7ITQxxFYds50NBQgHzsg/viewform"
+                target="_blank" class="btn btn-primary">Start Your Custom Setup</a>
 
-            <p style="margin-top: 40px; font-size: 0.8rem; color: var(--text-secondary);">
+            <p style="margin-top: 50px; font-size: 0.8rem; color: var(--text-secondary);">
                 © 2025 Respondant Automation Agency. All Rights Reserved.
             </p>
         </footer>
@@ -420,6 +562,7 @@
             const themeToggle = document.getElementById('theme-toggle');
             const html = document.documentElement;
 
+            // THEME TOGGLE LOGIC
             themeToggle.addEventListener('click', () => {
                 if (html.getAttribute('data-theme') === 'dark') {
                     html.setAttribute('data-theme', 'light');
@@ -429,8 +572,18 @@
                     themeToggle.innerHTML = '☀️';
                 }
             });
+
+            // MOUSE TRACKING LOGIC
+            const body = document.body;
+            body.addEventListener('mousemove', (e) => {
+                // Update CSS variables --mouse-x and --mouse-y based on cursor position
+                body.style.setProperty('--mouse-x', `${e.clientX}px`);
+                body.style.setProperty('--mouse-y', `${e.clientY}px`);
+            });
         });
     </script>
+
+    <script src="https://www.noupe.com/embed/019b0368b64b73cabdb7b1e5d95c21f0f9ea.js"></script>
 
 </body>
 
